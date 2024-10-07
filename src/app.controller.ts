@@ -1,12 +1,15 @@
 import { BadRequestException, Body, Controller, Get, Inject, NotFoundException, Post, Query, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 import { TodolistServiceInterface } from './todolist/todolistService/todolistServiceInterface';
+import { FlagsLocalService } from './flags/flags.local/flags.local.service';
 
 @Controller()
 export class AppController {
 
-  constructor(@Inject(TodolistServiceInterface) private readonly todolistService: TodolistServiceInterface, 
-  private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService,
+    @Inject(TodolistServiceInterface) private readonly todolistService: TodolistServiceInterface,
+    private readonly flagService: FlagsLocalService
+  ) {}
 
   @Get()
   getHello(): string {
@@ -36,4 +39,10 @@ export class AppController {
     return todolist;
   }
   
+  @Get('/flags')
+  getFlags() {
+    console.log(this.flagService.getAll());
+    return Object.fromEntries(this.flagService.getAll());
+  }
+
 }

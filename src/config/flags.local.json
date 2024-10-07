@@ -1,0 +1,5 @@
+{
+    "myStringFlag": "foo",
+    "myNumberFlag": 10,
+    "myBooleanFlag": "true"
+}
