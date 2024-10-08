@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { TodolistLocalServiceService } from './todolistService/todolist-local-service.service';
-import { TodolistDbServiceService } from './todolistService/todolist-db-service.service';
-import { TodolistServiceInterface } from './todolistService/todolistServiceInterface';
+import { TodolistLocalServiceService } from './service/todolist-local-service.service';
+import { TodolistDbServiceService } from './service/todolist-db-service.service';
+import { TodolistServiceInterface } from './service/todolistServiceInterface';
 
 @Module({
   providers: [

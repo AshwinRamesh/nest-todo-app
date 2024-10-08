@@ -11,6 +11,7 @@ export class FlagsLocalService implements FlagsServiceInterface {
     private flagMap: Map<string, FlagTypes>;
 
     private static LOCAL_FILE_DEFAULT_PATH = "../../config/flags.local.json";
+    private static RELOAD_INTERVAL_MS = 5000;
 
     constructor() {
         this.reloadFlagsFromDisk();
@@ -19,7 +20,7 @@ export class FlagsLocalService implements FlagsServiceInterface {
         // TODO - move the refresh interval into config.
         setInterval(() => {
             this.reloadFlagsFromDisk();
-        }, 5000);
+        }, FlagsLocalService.RELOAD_INTERVAL_MS);
     }
 
     // TODO - handle errors better

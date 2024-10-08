@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Get, Inject, NotFoundException, Post, Query, Req } from '@nestjs/common';
 import { AppService } from './app.service';
-import { TodolistServiceInterface } from './todolist/todolistService/todolistServiceInterface';
+import { TodolistServiceInterface } from './todolist/service/todolistServiceInterface';
 import { FlagsLocalService } from './flags/flags.local/flags.local.service';
 
 @Controller()
