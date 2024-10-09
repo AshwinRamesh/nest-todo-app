@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { FlagsService } from './flags.interface.service';
-import { ConfigFlag, FlagTypes } from '../flags';
+import { ConfigFlag, FlagTypes, UserFlag } from '../flags';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -21,6 +21,9 @@ export class FlagsLocalService implements FlagsService {
         setInterval(() => {
             this.reloadFlagsFromDisk();
         }, FlagsLocalService.RELOAD_INTERVAL_MS);
+    }
+    getUserFlag(userContext: any, flag: UserFlag<FlagTypes>): FlagTypes {
+        throw new Error('Method not implemented.');
     }
 
     // TODO - handle errors better
