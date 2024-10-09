@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { FlagsServiceInterface } from '../flags.interface.service';
+import { FlagsService } from './flags.interface.service';
 import { ConfigFlag, FlagTypes } from '../flags';
 import * as fs from 'fs';
 import * as path from 'path';
 
 @Injectable()
-export class FlagsLocalService implements FlagsServiceInterface {
+export class FlagsLocalService implements FlagsService {
 
     // Map of all current flag values
     private flagMap: Map<string, FlagTypes>;

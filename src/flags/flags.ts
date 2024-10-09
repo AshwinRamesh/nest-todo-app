@@ -1,11 +1,13 @@
 
 export type FlagTypes = string|number|boolean;
 
-// Maps to the whole system
+// Maps to the whole system (not at a user level like a feature flag)
+// TODO - need a way to pass these flags to FE also...
+
 export class ConfigFlag<FlagTypes> {
     
-    private name: string;
-    private fallbackValue: FlagTypes;
+    private readonly name: string;
+    private readonly fallbackValue: FlagTypes;
     
     private static flagNameList: string[]
     
@@ -27,7 +29,7 @@ export class ConfigFlag<FlagTypes> {
 }
 
 
-// Maps to a set of users
+// Maps to a set of users - Still in development (aka. Feature Flags)
 export class UserFlag<FlagTypes> {
 
 }

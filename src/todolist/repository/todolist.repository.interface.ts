@@ -1,6 +1,6 @@
 import { Todolist, TodolistItem } from "../todolist.dto";
 
-export interface TodolistRepositoryInterface {
+export interface TodolistRepository {
 
     createTodolist(name: string): Todolist;
     

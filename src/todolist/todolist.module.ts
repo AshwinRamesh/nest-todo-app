@@ -1,18 +1,23 @@
 import { Module } from '@nestjs/common';
-import { TodolistLocalServiceService } from './service/todolist-local-service.service';
-import { TodolistDbServiceService } from './service/todolist-db-service.service';
-import { TodolistServiceInterface } from './service/todolistServiceInterface';
+import { TodolistService } from './service/todolist.service.interface';
+import { TodolistServiceImpl } from './service/todolist.service.impl';
+import { TodolistDbRepository } from './repository/todolist.db.repository';
+import { TodolistLocalRepository } from './repository/todolist.local.repository';
 
 @Module({
   providers: [
-    { // TODO - check if this works as expected.
-      provide: TodolistServiceInterface,
-      useClass: process.env.NODE_ENV === 'production' ? TodolistDbServiceService : TodolistLocalServiceService,
-      //useClass: TodolistLocalServiceService,
+    {
+      provide: TodolistService,
+      //useClass: process.env.NODE_ENV === 'production' ? TodolistDbServiceService : TodolistLocalServiceService,
+      useClass: TodolistServiceImpl,
+    },
+    {
+      provide: "TodolistRepository",
+      useClass: process.env.NODE_ENV === 'production' ? TodolistDbRepository : TodolistLocalRepository
     }
 
   ],
   // This exports tells the module to make classes visible to other modules.
-  exports: [TodolistServiceInterface]
+  exports: [TodolistService]
 })
 export class TodolistModule {}

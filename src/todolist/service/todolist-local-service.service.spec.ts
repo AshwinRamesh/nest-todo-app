@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TodolistLocalServiceService } from './todolist-local-service.service';
+import { TodolistServiceImpl } from './todolist.service.impl';
 
-describe('TodolistLocalServiceService', () => {
-  let service: TodolistLocalServiceService;
+describe('TodolistServiceImpl', () => {
+  let service: TodolistServiceImpl;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TodolistLocalServiceService],
+      providers: [TodolistServiceImpl],
     }).compile();
 
-    service = module.get<TodolistLocalServiceService>(TodolistLocalServiceService);
+    service = module.get<TodolistServiceImpl>(TodolistServiceImpl);
   });
 
   it('should be defined', () => {

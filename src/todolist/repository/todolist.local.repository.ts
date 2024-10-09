@@ -1,7 +1,10 @@
+import { Injectable } from "@nestjs/common";
 import { Todolist, TodolistItem } from "../todolist.dto";
-import { TodolistRepositoryInterface } from "./todolist.repository.interface";
+import { TodolistRepository } from "./todolist.repository.interface";
 
-class TodolistLocalRepository implements TodolistRepositoryInterface {
+
+@Injectable()
+export class TodolistLocalRepository implements TodolistRepository {
     
     // Current unique id of the todoList - not threadsafe AFAIK
     private todoListCurrentId: number;
@@ -20,7 +23,7 @@ class TodolistLocalRepository implements TodolistRepositoryInterface {
         this.todoListMap = {};
         this.itemMap = {};
 
-        console.log('TL Service local is ready today!');
+        console.log('TodolistLocalRepository is ready!');
     }
     
     getTodolist(todolistId: number): Todolist | null {

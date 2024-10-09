@@ -1,13 +1,13 @@
 import { BadRequestException, Body, Controller, Get, Inject, NotFoundException, Post, Query, Req } from '@nestjs/common';
 import { AppService } from './app.service';
-import { TodolistServiceInterface } from './todolist/service/todolistServiceInterface';
-import { FlagsLocalService } from './flags/flags.local/flags.local.service';
+import { TodolistService} from './todolist/service/todolist.service.interface';
+import { FlagsLocalService } from './flags/service/flags.local.service';
 
 @Controller()
 export class AppController {
 
   constructor(private readonly appService: AppService,
-    @Inject(TodolistServiceInterface) private readonly todolistService: TodolistServiceInterface,
+    @Inject(TodolistService) private readonly todolistService: TodolistService,
     private readonly flagService: FlagsLocalService
   ) {}
 
