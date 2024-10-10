@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Todolist, TodolistItem } from "../todolist.dto";
+import { TodolistDTO, TodolistItemDTO } from "../todolist.dto";
 import { TodolistRepository } from "./todolist.repository.interface";
 
 
@@ -12,10 +12,10 @@ export class TodolistLocalRepository implements TodolistRepository {
     private itemCurrentId: number;
 
     // Todolist Id --> name of list
-    private todoListMap: {[k: number]: Todolist}
+    private todoListMap: {[k: number]: TodolistDTO}
     
     // Item Id --> {todoList.id, item description}
-    private itemMap: {[k: number]: TodolistItem}
+    private itemMap: {[k: number]: TodolistItemDTO}
 
     constructor() {
         this.todoListCurrentId = 0;
@@ -26,14 +26,14 @@ export class TodolistLocalRepository implements TodolistRepository {
         console.log('TodolistLocalRepository is ready!');
     }
     
-    getTodolist(todolistId: number): Todolist | null {
+    async getTodolist(todolistId: number): Promise<TodolistDTO | null> {
         if (todolistId in this.todoListMap) {
             return this.todoListMap[todolistId];
         }
         return null;
     }
     
-    getTodolistItem(todolistId: number, itemId: number): TodolistItem | null {
+    async getTodolistItem(todolistId: number, itemId: number): Promise<TodolistItemDTO | null> {
         if (todolistId in this.todoListMap && itemId in this.itemMap 
             && this.itemMap[itemId].todoListId === todolistId) {
             return this.itemMap[itemId];
@@ -41,8 +41,8 @@ export class TodolistLocalRepository implements TodolistRepository {
         return null;
     }
     
-    createTodolist(name: string): Todolist {
-        const tl: Todolist = {
+    async createTodolist(name: string): Promise<TodolistDTO> {
+        const tl: TodolistDTO = {
             id: this.todoListCurrentId,
             name: name,
             items: [],
@@ -54,12 +54,12 @@ export class TodolistLocalRepository implements TodolistRepository {
 
         return tl;
     }
-    createTodolistItem(todolistId: number, itemName: string): TodolistItem {
+    async createTodolistItem(todolistId: number, itemName: string): Promise<TodolistItemDTO> {
         if (todolistId in this.todoListMap === false) {
             throw new Error(`Todolist with id ${todolistId} does not exist`);
         }
         
-        const item: TodolistItem = {
+        const item: TodolistItemDTO = {
             id: this.itemCurrentId,
             name: itemName,
             isCompleted: false,
@@ -73,8 +73,8 @@ export class TodolistLocalRepository implements TodolistRepository {
         return item;
     }
     
-    updateTodolist(todoListId: number, name?: string, isCompleted?: boolean): Todolist {
-        const tl = this.getTodolist(todoListId);
+    async updateTodolist(todoListId: number, name?: string, isCompleted?: boolean): Promise<TodolistDTO> {
+        const tl = await this.getTodolist(todoListId);
         if (tl && (name != undefined || isCompleted != undefined)) {
             if (name != undefined) {
                 tl.name = name;
@@ -87,8 +87,8 @@ export class TodolistLocalRepository implements TodolistRepository {
         throw new Error("Could not update todolist.");
     }
     
-    updateTodolistItem(todoListId: number, itemId: number, itemName?: string, isCompleted?: boolean): TodolistItem {
-        const item = this.getTodolistItem(todoListId, itemId)
+    async updateTodolistItem(todoListId: number, itemId: number, itemName?: string, isCompleted?: boolean): Promise<TodolistItemDTO> {
+        const item = await this.getTodolistItem(todoListId, itemId)
         if (item && (itemName != undefined || isCompleted != undefined)) {
             if (itemName != undefined) {
                 item.name = itemName;

@@ -1,18 +1,18 @@
-import { Todolist, TodolistItem } from "../todolist.dto";
+import { TodolistDTO, TodolistItemDTO } from "../todolist.dto";
 
 export interface TodolistService {
 
-    createTodolist(name: string): Todolist;
+    createTodolist(name: string): Promise<TodolistDTO>;
 
-    addItem(todolistId: number, itemDetails: string): TodolistItem;
+    addItem(todolistId: number, itemDetails: string): Promise<TodolistItemDTO>;
 
-    getItem(todolistId: number, itemId: number): TodolistItem;
+    getItem(todolistId: number, itemId: number): Promise<TodolistItemDTO>;
 
-    getTodoList(todolistId: number): Todolist;
+    getTodoList(todolistId: number): Promise<TodolistDTO>;
 
-    markItemAsCompleted(todolistId: number, itemId: number): boolean;
+    markItemAsCompleted(todolistId: number, itemId: number): Promise<boolean>;
 
-    markTodolistAsCompleted(todolistId: number): boolean;
+    markTodolistAsCompleted(todolistId: number): Promise<boolean>;
 
 }
 

@@ -1,38 +1,38 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { TodolistService} from './todolist.service.interface';
 import { TodolistRepository } from '../repository/todolist.repository.interface';
-import { Todolist, TodolistItem } from '../todolist.dto';
+import { TodolistDTO, TodolistItemDTO } from '../todolist.dto';
 
 
 @Injectable()
 export class TodolistServiceImpl implements TodolistService{
 
-    constructor(@Inject('TodolistRepository') private readonly repository: TodolistRepository) {
+    constructor(@Inject(TodolistRepository) private readonly repository: TodolistRepository) {
         console.log('TL Service local is ready today!');
         console.log('REPO', repository);
     }
 
-    createTodolist(name: string): Todolist {
+    async createTodolist(name: string): Promise<TodolistDTO> {
         console.log(name);
         return this.repository.createTodolist(name);
         
     }
-    addItem(todolistId: number, itemName: string): TodolistItem {
+    async addItem(todolistId: number, itemName: string): Promise<TodolistItemDTO> {
         return this.repository.createTodolistItem(todolistId, itemName);
     }
 
-    getItem(todolistId: number, itemId: number): TodolistItem {
+    async getItem(todolistId: number, itemId: number): Promise<TodolistItemDTO> {
         const item = this.repository.getTodolistItem(todolistId, itemId);
         if (item) {return item;}
         throw new NotFoundException(`Invalid todoListId and/or itemid`);
     }
     
-    getTodoList(todolistId: number): Todolist {
+    async getTodoList(todolistId: number): Promise<TodolistDTO> {
         const tl = this.repository.getTodolist(todolistId);
         if (tl) {return tl;}
         throw new NotFoundException(`Invalid todoListId: ${todolistId}`);
     }
-    markItemAsCompleted(todolistId: number, itemId: number): boolean {
+    async markItemAsCompleted(todolistId: number, itemId: number): Promise<boolean> {
         const item = this.repository.updateTodolistItem(todolistId, itemId, undefined, true);
         if (item) {
             return true;
@@ -40,7 +40,7 @@ export class TodolistServiceImpl implements TodolistService{
         return false;
     }
 
-    markTodolistAsCompleted(todolistId: number): boolean {
+    async markTodolistAsCompleted(todolistId: number): Promise<boolean> {
         const tl = this.repository.updateTodolist(todolistId, undefined, true);
         if (tl) {
             return true;

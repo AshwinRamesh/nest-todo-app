@@ -1,6 +1,7 @@
 import { defineConfig } from '@mikro-orm/sqlite';
 
 export default defineConfig({
+    debug: true, // Should log
     entities: ['./dist/entities'],
     entitiesTs: ['./src/entities'],
     dbName: 'ash-todo-app.sqlite',

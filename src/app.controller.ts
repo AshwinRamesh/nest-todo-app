@@ -12,23 +12,21 @@ export class AppController {
   ) {}
 
   @Get()
-  getHello(): string {
+  async getHello(): Promise<string> {
     return this.appService.getHello();
   }
 
-  // TODO - this does not accept form data. need to import module..
-
   @Post("/createList")
-  createList(@Req() req: Request, @Body('name') name: string, @Body() body: any) {
+  async createList(@Req() req: Request, @Body('name') name: string, @Body() body: any) {
     console.log(body);
     //console.log(req);
-    const tl = this.todolistService.createTodolist(name);
+    const tl = await this.todolistService.createTodolist(name);
     console.log(tl.id, tl.name);
     return tl;
   }
 
   @Get('/list')
-  getList(@Req() req: Request, @Query('id') todolistId: number) {
+  async getList(@Req() req: Request, @Query('id') todolistId: number) {
     if (!todolistId) {
       throw new BadRequestException('The "id" field is required.');
     }
@@ -38,9 +36,23 @@ export class AppController {
     }
     return todolist;
   }
+
+  @Get('/item')
+  async getItem(@Req() req: Request, @Query('listId') listId: number,  @Query('itemId') itemId: number) {
+    if (!itemId) {throw new BadRequestException('Need ID');}
+    return await this.todolistService.getItem(listId, itemId);
+  }
+
+  @Post("/createItem")
+  async createItem(@Req() req: Request,@Body('listId') listId: number, @Body('name') name: string, @Body() body: any) {
+    console.log(body);
+    const tl = await this.todolistService.addItem(listId, name);
+    console.log(tl.id, tl.name);
+    return tl;
+  }
   
   @Get('/flags')
-  getFlags() {
+  async getFlags() {
     console.log(this.flagService.getAll());
     return Object.fromEntries(this.flagService.getAll());
   }

@@ -12,4 +12,5 @@ export class TodolistItem extends BaseEntity {
 
     @ManyToOne({})
     todolist: Todolist;
+
 }

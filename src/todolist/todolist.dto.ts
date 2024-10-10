@@ -1,13 +1,13 @@
-export type TodolistItem = {
+export type TodolistItemDTO = {
     id: number;
     name: string;
     isCompleted: boolean;
     todoListId: number;
 }
 
-export type Todolist = {
+export type TodolistDTO = {
     id: number;
     name: string,
-    items: TodolistItem[];
+    items: TodolistItemDTO[];
     isCompleted: boolean;
 }
